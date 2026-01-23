@@ -53,7 +53,7 @@ The Month field can also contain a _quarter_ or a _semester_ number.
 
 ### Week field
 
-If the full year flag is unset:
+If the full year flag is unset, _week of quarter_ and _week of semester_ are available:
 
 ```
 0: unset
@@ -70,14 +70,14 @@ If the full year flag is set:
 ```
 0: unset
 1...5: week 1 to 5 of month
-8...61: week 1 to 53 of year
+9...61: week 1 to 53 of year
 7: last week of month
 63: last week of year
 ```
 
 ### Day field
 
-If the full year is unset:
+If the full year is unset, _day of quarter_ and _day of semester_ are available:
 
 ```
 0: unset
@@ -115,7 +115,7 @@ This flag controls how to read the Week and Day fields.
 1: set
 ```
 
-When it is set, the _day of the year_ or the _week of the year_ value is used.
+When it is set, the _day of year_ or the _week of year_ value is used.
 
 ### Hour field
 
@@ -133,7 +133,7 @@ If the millisecond value is special value `0x3ff`:
 1..12: hour 1 to 12 (twelve-hour clock)
 ```
 
-When the special value is used that means _AM_ or _PM_ is not given for the hour value, as in the example in the introduction.
+When the special value is used that means _AM_ or _PM_ is not given for the hour value, as in the introductory example.
 
 ### Minute field
 
