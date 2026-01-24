@@ -34,8 +34,8 @@ The year can be short or full.
 
 ```
 0: unset
-1...100: year 0 to 99
-256...65535: year -55280 to 9999
+1...100: short year 0 to 99
+256...65535: full year -55280 to 9999
 ```
 
 ### Month field
@@ -82,7 +82,7 @@ If the full year is unset, _day of quarter_ and _day of semester_ are available:
 ```
 0: unset
 1...31: day 1 to 31 of month
-65...72: day 1 to 7 of week
+65...72: day 1 to 7 of week (Monday to Sunday)
 81...87: Monday to Sunday (week of)
 129...220: day 1 to 92 of quarter
 257...439: day 1 to 183 of semester
@@ -96,7 +96,7 @@ If the full year is set:
 ```
 0: unset
 1...31: day 1 to 31 of month
-65...72: day 1 to 7 of week
+65...72: day 1 to 7 of week (Monday to Sunday)
 81...87: Monday to Sunday (week of)
 129...494: day 1 to 366 of year
 63: last day of month
@@ -105,6 +105,8 @@ If the full year is set:
 
 A note about values between 81 and 87: when that is selected, the week in the Week field is only counted when it contains the selected day.
 In practice that allows for example to describe the _first, second_, etc up to _last Tuesday_ of a month.
+
+A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the current date (closest matching date in the future or in the past) and _full year_, _month of year_ must be encoded in the Moment.
 
 ### Full year flag
 
@@ -130,7 +132,7 @@ If the millisecond value is special value `0x3ff`:
 
 ```
 0: unset
-1..12: hour 1 to 12 (twelve-hour clock)
+2..13: hour 1 to 12 (twelve-hour clock)
 ```
 
 When the special value is used that means _AM_ or _PM_ is not given for the hour value, as in the introductory example.
