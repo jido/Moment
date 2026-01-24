@@ -106,7 +106,9 @@ If the full year is set:
 A note about values between 81 and 87: when that is selected, the week in the Week field is only counted when it contains the selected day.
 In practice that allows for example to describe the _first, second_, etc up to _last Tuesday_ of a month.
 
-A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the current date (closest matching date in the future or in the past) and _long year_, _month of year_ must be encoded in the Moment.
+A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the current date at the time of writing (closest matching date in the future or in the past) and _long year_, _month of year_ must be encoded in the Moment.
+
+Alternatively the _day of week_ can be encoded in a separate Moment, if space permits.
 
 ### Full year flag
 
@@ -160,3 +162,100 @@ When the special value is used that means _AM_ or _PM_ is not given for the hour
 ```
 
 When milliseconds are given the hour is always assumed to be based on a 24-hour clock.
+
+## Examples
+
+* Tuesday at 4:15
+
+```
+0x00000004215003ff
+```
+
+Day = 66
+: _day of week_, **Tuesday**
+ 
+Hour = 5
+: _hour (twelve-hour clock)_, **4**
+
+Minute = 16
+: _minute_, **15**
+
+Millisecond = 1023
+: **unset**, means hour from 12-hour clock
+
+---
+
+* The third Monday of the quarter
+
+```
+0x0000002651000000
+```
+
+Week = 19
+: _week of quarter_, **3**
+
+Day = 81
+: _week of Monday_, **Monday**
+
+Full year flag = 0
+: **unset**
+
+---
+
+* 7:01:33.239
+
+```
+0x0000 0000 020288f0 
+```
+
+Hour = 8
+: _hour_, **7**
+
+Minute = 2
+: _minute_, **1**
+
+Second = 34
+: _second_, **33**
+
+Millisecond = 240
+: _millisecond_, **239**
+
+---
+
+* Wednesday, June the eleventh, 2025
+
+```
+0xe0d93000b0000000
+```
+
+Year = 57561
+: _long year_, **2025**
+
+Month = 6
+: _month of year_, **June**
+
+Day = 11
+: _day of month_, **11**
+
+---
+
+* 23:59 on last day of 98
+
+```
+0x0063001ffe3c0000
+```
+
+Year = 99
+: _short year_, **98**
+
+Day = 511
+: _day of year_, **last**
+
+Full year flag = 1
+: **set**
+
+Hour = 24
+: _hour_, **23**
+
+Minute = 60
+: _minute_, **59**
