@@ -30,12 +30,12 @@ The value 0 means the field is unset. As an exception, if the millisecond value 
 
 ### Year field
 
-The year can be short or full.
+The year can be short or long.
 
 ```
 0: unset
 1...100: short year 0 to 99
-256...65535: full year -55280 to 9999
+256...65535: long year -55280 to 9999
 ```
 
 ### Month field
@@ -106,7 +106,7 @@ If the full year is set:
 A note about values between 81 and 87: when that is selected, the week in the Week field is only counted when it contains the selected day.
 In practice that allows for example to describe the _first, second_, etc up to _last Tuesday_ of a month.
 
-A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the current date (closest matching date in the future or in the past) and _full year_, _month of year_ must be encoded in the Moment.
+A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the current date (closest matching date in the future or in the past) and _long year_, _month of year_ must be encoded in the Moment.
 
 ### Full year flag
 
