@@ -8,18 +8,19 @@ For example:
 
 There is no year, month, half of the day specified. All parts are optional in a Moment.
 
+
 ## Format details
 
 The format fits in a 64 bit word with the following fields:
 
 ```
-yyyyyyyy yyyyyyyy MMMMMwww wwwddddd ddddFhhh hhmmmmmm ssssssSS SSSSSSSS
+yyyyyyyy yyyyyyyM MMMddddd ddddwwww wwDDDhhh hhmmmmmm ssssssSS SSSSSSSS
 
-y: year (16 bit)
-M: month (5 bit)
-w: week (6 bit)
+y: year (15 bit)
+M: month (4 bit)
 d: day (9 bit)
-F: full year flag (1 bit)
+w: week (6 bit)
+D: day of week (3 bit)
 h: hour (5 bit)
 m: minute (6 bit)
 s: second (6 bit)
@@ -28,32 +29,86 @@ S: millisecond (10 bit)
 
 The value 0 means the field is unset. As an exception, if the millisecond value is `0x3ff` it is also unset (that value has a special meaning).
 
+
 ### Year field
 
-The year can be short or long.
+The year can be short or long. The Year field can also contain a _quarter_ or _semester_ number.
 
 ```
 0: unset
 1...100: short year 0 to 99
-256...65535: long year -55280 to 9999
+129...228: Q1 or S1 in year 0 to 99
+257...356: Q2 or S2 in year 0 to 99
+385...484: Q3 in year 0 to 99
+513...612: Q4 in year 0 to 99
+641...740: a quarter or semester in year 0 to 99
+768...32767: long year -22000 to 9999
+128: Q1
+240: S1
+256: Q2
+368: S2
+384: Q3
+512: Q4
+640: any quarter or semester
 ```
+
 
 ### Month field
 
-The Month field can also contain a _quarter_ or a _semester_ number.
+If a _quarter_ or _semester_ is selected in the Year field.
+
+```
+0: unset
+1...3: month 1 to 3 of quarter
+9...14: month 1 to 6 of semester
+```
+
+Otherwise:
 
 ```
 0: unset
 1...12: month 1 to 12 of year
-14...15: semester 1 to 2
-17...22: month 1 to 6 of semester
-25...27: month 1 to 3 of quarter
-28...31: quarter 1 to 4
 ```
+
+
+### Day field
+
+The Day field can contain a day of the month, of the quarter, of the semester or of the year. It can also control how the week number in the Week field should be interpreted.
+
+If a _quarter_ or _semester_ is selected in the Year field:
+
+```
+0: unset
+1...31: day 1 to 31 of month
+129...220: day 1 to 92 of quarter
+257...439: day 1 to 183 of semester
+63: last day of month
+255: last day of quarter
+511: last day of semester
+64: week starting on day, week 1 contains day
+96: week starting Monday, week 1 contains a Sunday
+112: week starting Sunday, week 1 contains a Saturday
+```
+
+Otherwise:
+
+```
+0: unset
+1...31: day 1 to 31 of month
+129...494: day 1 to 366 of year
+63: last day of month
+511: last day of year
+64: week starting on day, week 1 contains day
+96: week starting Monday, week 1 contains a Sunday
+112: week starting Sunday, week 1 contains a Saturday
+```
+
+The values 64, 96 and 112 have an effect on the Week field.
+
 
 ### Week field
 
-If the full year flag is unset, _week of quarter_ and _week of semester_ are available:
+If a _quarter_ or _semester_ is selected in the Year field:
 
 ```
 0: unset
@@ -65,7 +120,7 @@ If the full year flag is unset, _week of quarter_ and _week of semester_ are ava
 63: last week of semester
 ```
 
-If the full year flag is set:
+Otherwise:
 
 ```
 0: unset
@@ -75,61 +130,24 @@ If the full year flag is set:
 63: last week of year
 ```
 
-### Day field
+By default the week number follows the ISO 8601 standard: week starting Monday, week 1 contains a Thursday.
 
-If the full year is unset, _day of quarter_ and _day of semester_ are available:
+The Day field can be used to change it. The other options are _week starting on day, week 1 contains day_ (to use together with a _day of week_), _week starting Monday, week 1 contains a Sunday_ and _week starting Sunday, week 1 contains a Saturday_.
 
-```
-0: unset
-1...31: day 1 to 31 of month
-65...72: Monday to Sunday (week of)
-81...87: day 1 to 7 of week (ISO 8601)
-97...103: day 1 to 7 of week (Monday to Sunday)
-113...119: day 1 to 7 of week (Sunday to Saturday)
-129...220: day 1 to 92 of quarter
-257...439: day 1 to 183 of semester
-63: last day of month
-96: week starting Monday, week 1 contains a Sunday
-112: week starting Sunday, week 1 contains a Saturday
-255: last day of quarter
-511: last day of semester
-```
 
-If the full year is set:
+### Day of week
 
 ```
 0: unset
-1...31: day 1 to 31 of month
-65...72: Monday to Sunday (week of)
-81...87: day 1 to 7 of week (ISO 8601)
-97...103: day 1 to 7 of week (Monday to Sunday)
-113...119: day 1 to 7 of week (Sunday to Saturday)
-129...494: day 1 to 366 of year
-63: last day of month
-96: week starting Monday, week 1 contains a Sunday
-112: week starting Sunday, week 1 contains a Saturday
-511: last day of year
+1...7: day 1 to 7 of week
 ```
 
-By default the week number in the Week field follows the ISO 8601 standard: Monday to Saturday, week 1 contains a Thursday. The other options are week starting Monday, week 1 contains a Sunday (_values 96...103_) and week starting Sunday, week 1 contains a Saturday (_values 112...119_). Day values _96_ and _112_ don't set a day but they have an effect on week numbers.
+By default the week begins on Monday and ends on Sunday. The Day field offers an option to begin it on Sunday and end it on Saturday.
 
-With the "week of \<day>" option the week in the Week field is only counted when it contains the selected day (_values 65...72_).
+With the "week starting on day" option a week is only counted when it contains the selected day.
+
 In practice that allows for example to describe the _first, second_, etc up to _last Tuesday_ of a month.
 
-A Moment cannot encode both the _day of week_ and the _day of month_. When both are given, the moment is assumed to be on a specific month and year which must be guessed based on the date at the time of writing and encoded in the Moment (closest future or past date).
-
-Alternatively the _day of week_ can be encoded in a separate Moment, if space permits.
-
-### Full year flag
-
-This flag controls how to read the Week and Day fields.
-
-```
-0: unset
-1: set
-```
-
-When it is set, the _day of year_ or the _week of year_ value is used.
 
 ### Hour field
 
@@ -149,6 +167,7 @@ If the millisecond value is special value `0x3ff`:
 
 When the special value is used that means _AM_ or _PM_ is not given for the hour value, as in the introductory example.
 
+
 ### Minute field
 
 ```
@@ -156,12 +175,14 @@ When the special value is used that means _AM_ or _PM_ is not given for the hour
 1...60: minute 0 to 59
 ```
 
+
 ### Second field
 
 ```
 0: unset
 1...60: second 0 to 59
 ```
+
 
 ### Millisecond field
 
@@ -173,16 +194,17 @@ When the special value is used that means _AM_ or _PM_ is not given for the hour
 
 When milliseconds are given the hour is always assumed to be based on a 24-hour clock.
 
+
 ## Examples
 
 * Tuesday at 4:15
 
 ```
-0x00000004215003ff
+0x00000000115003ff
 ```
 
-Day = 66
-: _week of Tuesday_, **Tuesday**
+Day of week = 2
+: _day of week_, **Tuesday**
  
 Hour = 5
 : _hour (twelve-hour clock)_, **4**
@@ -198,24 +220,27 @@ Millisecond = 1023
 * The third Monday of the quarter
 
 ```
-0x0000002641000000
+0x0500 0404 c800
 ```
+
+Year = 640
+: **any quarter or semester**
+
+Day = 64
+: _week starting on day, week 1 contains day_
 
 Week = 19
 : _week of quarter_, **3**
 
-Day = 65
-: _week of Monday_, **Monday**
-
-Full year flag = 0
-: **unset**
+Day of week = 1
+: _day of week_, **Monday**
 
 ---
 
 * 7:01:33.239
 
 ```
-0x0000 0000 020288f0 
+0x00000000020288f0 
 ```
 
 Hour = 8
@@ -235,10 +260,10 @@ Millisecond = 240
 * Wednesday, June the eleventh, 2025
 
 ```
-0xe0d93000b0000000
+0xc1b2 c0b0 1800 0000
 ```
 
-Year = 57561
+Year = 24793
 : _long year_, **2025**
 
 Month = 6
@@ -247,12 +272,15 @@ Month = 6
 Day = 11
 : _day of month_, **11**
 
+Day of week = 3
+: _day of week_, **Wednesday**
+
 ---
 
 * 23:59 on last day of 98
 
 ```
-0x0063001ffe3c0000
+0x00c61ff00e3c0000
 ```
 
 Year = 99
