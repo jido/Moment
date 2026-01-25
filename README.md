@@ -43,10 +43,8 @@ The year can be short or long. The Year field can also contain a _quarter_ or _s
 513...612: Q4 in year 0 to 99
 641...740: a quarter or semester in year 0 to 99
 768...32767: long year -22000 to 9999
-128: Q1
-240: S1
-256: Q2
-368: S2
+128: Q1 or S1
+256: Q2 or S2
 384: Q3
 512: Q4
 640: any quarter or semester
@@ -61,6 +59,7 @@ If a _quarter_ or _semester_ is selected in the Year field.
 0: unset
 1...3: month 1 to 3 of quarter
 9...14: month 1 to 6 of semester
+8: semester only
 ```
 
 Otherwise:
@@ -69,6 +68,8 @@ Otherwise:
 0: unset
 1...12: month 1 to 12 of year
 ```
+
+The _semester only_ option should be used when none of _month of semester_, _day of semester_ or _week of semester_ is selected.
 
 
 ### Day field
