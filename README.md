@@ -27,7 +27,7 @@ s: second (6 bit)
 S: millisecond (10 bit)
 ```
 
-The value 0 means the field is unset. As an exception, if the millisecond value is `0x3ff` it is also unset (that value has a special meaning).
+The value 0 means the field is unset. There are other values that also don't set a value for the field but affect other fields.
 
 
 ### Year field
@@ -280,7 +280,7 @@ Day of week = 3
 * 23:59 on last day of 98
 
 ```
-0x00c61ff00e3c0000
+0x00c61ff0063c0000
 ```
 
 Year = 99
@@ -288,9 +288,6 @@ Year = 99
 
 Day = 511
 : _day of year_, **last**
-
-Full year flag = 1
-: **set**
 
 Hour = 24
 : _hour_, **23**
