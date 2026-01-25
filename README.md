@@ -73,7 +73,7 @@ Otherwise:
 
 ### Day field
 
-The Day field can contain a day of the month, of the quarter, of the semester or of the year. It can also control how the week number in the Week field should be interpreted.
+The Day field can contain a day of the month, the quarter, the semester or the year. It can also control how the week number in the Week field should be interpreted.
 
 If a _quarter_ or _semester_ is selected in the Year field:
 
@@ -189,7 +189,7 @@ When the special value is used that means _AM_ or _PM_ is not given for the hour
 ```
 0: unset
 1...1000: millisecond 0 to 999
-1023: unset (special meaning)
+1023: twelve-hour clock
 ```
 
 When milliseconds are given the hour is always assumed to be based on a 24-hour clock.
@@ -213,7 +213,7 @@ Minute = 16
 : _minute_, **15**
 
 Millisecond = 1023
-: **unset**, means hour from 12-hour clock
+: _twelve-hour clock_
 
 ---
 
