@@ -86,7 +86,7 @@ If a _quarter_ or _semester_ is selected in the Year field:
 63: last day of month
 255: last day of quarter
 511: last day of semester
-64: week starting on day, week 1 contains day
+64: week starting Monday, week 1 contains day
 96: week starting Monday, week 1 contains a Sunday
 112: week starting Sunday, week 1 contains a Saturday
 ```
@@ -99,7 +99,7 @@ Otherwise:
 129...494: day 1 to 366 of year
 63: last day of month
 511: last day of year
-64: week starting on day, week 1 contains day
+64: week starting Monday, week 1 contains day
 96: week starting Monday, week 1 contains a Sunday
 112: week starting Sunday, week 1 contains a Saturday
 ```
@@ -133,7 +133,7 @@ Otherwise:
 
 By default the week number follows the ISO 8601 standard: week starting Monday, week 1 contains a Thursday.
 
-The Day field can be used to change it. The other options are _week starting on day, week 1 contains day_ (to use together with a _day of week_), _week starting Monday, week 1 contains a Sunday_ and _week starting Sunday, week 1 contains a Saturday_.
+The Day field can be used to change it. The other options are _week starting Monday, week 1 contains day_ (to use together with a _day of week_), _week starting Monday, week 1 contains a Sunday_ and _week starting Sunday, week 1 contains a Saturday_.
 
 
 ### Day of week
@@ -145,7 +145,7 @@ The Day field can be used to change it. The other options are _week starting on 
 
 By default the week begins on Monday and ends on Sunday. The Day field offers an option to begin it on Sunday and end it on Saturday.
 
-With the "week starting on day" option a week is only counted when it contains the selected day.
+With the "week 1 contains day" option a week is only counted when it contains the selected day.
 
 In practice that allows for example to describe the _first, second_, etc up to _last Tuesday_ of a month.
 
@@ -228,7 +228,7 @@ Year = 640
 : **any quarter or semester**
 
 Day = 64
-: _week starting on day, week 1 contains day_
+: _week 1 contains day_
 
 Week = 19
 : _week of quarter_, **3**
