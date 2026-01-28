@@ -14,7 +14,7 @@ There is no year, month, half of the day specified. All parts are optional in a 
 The format fits in a 64 bit word with the following fields:
 
 ```
-yyyyyyyy yyyyyyyM MMMddddd ddddwwww wwDDDhhh hhmmmmmm ssssssSS SSSSSSSS
+yyyyyyyyyyyyyyyMMMMdddddddddwwwwwwDDDhhhhhmmmmmmssssssSSSSSSSSSS
 
 y: year (15 bit)
 M: month (4 bit)
@@ -221,7 +221,7 @@ Millisecond = 1023
 * The third Monday of the quarter
 
 ```
-0x0500 0404 c800
+0x05000404c8000000
 ```
 
 Year = 640
@@ -261,7 +261,7 @@ Millisecond = 240
 * Wednesday, June the eleventh, 2025
 
 ```
-0xc1b2 c0b0 1800 0000
+0xc1b2c0b018000000
 ```
 
 Year = 24793
