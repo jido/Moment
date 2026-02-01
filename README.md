@@ -87,8 +87,8 @@ If a _quarter_ or _semester_ is selected in the Year field:
 255: last day of quarter
 511: last day of semester
 64: week starting Monday, week 1 contains day
-96: week starting Monday, week 1 contains a Sunday
-112: week starting Sunday, week 1 contains a Saturday
+71: week starting Monday, week 1 contains a Sunday
+119: week starting Sunday, week 1 contains a Saturday
 ```
 
 Otherwise:
@@ -100,11 +100,11 @@ Otherwise:
 63: last day of month
 511: last day of year
 64: week starting Monday, week 1 contains day
-96: week starting Monday, week 1 contains a Sunday
-112: week starting Sunday, week 1 contains a Saturday
+71: week starting Monday, week 1 contains a Sunday
+119: week starting Sunday, week 1 contains a Saturday
 ```
 
-The values 64, 96 and 112 have an effect on the Week field.
+The values 64, 71 and 119 have an effect on the Week field.
 
 
 ### Week field
